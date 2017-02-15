@@ -47,7 +47,7 @@ namespace EnvyConfig{
       return node;
     }
 
-    private static Node Parse(Token[] tokens) { //TODO: Rebuild parser, I made a mistake with this one. 
+    private static Node Parse(Token[] tokens) {  
       Node final = new Node();
 
       string name = "";
