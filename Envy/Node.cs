@@ -7,19 +7,37 @@ using System.Text.RegularExpressions;
 namespace EnvyConfig {
   public class Node {
     public static Exception InvalidNameException = new Exception("Given name is invalid");
-    //public string Name { get; protected set; }
-
+    
+    /// <summary>
+    /// How many nodes and values are in the node
+    /// </summary>
     public int Count { get { return values.Count + nodes.Count; } }
+    /// <summary>
+    /// How many nodes are in the node
+    /// </summary>
     public int CountNodes { get { return nodes.Count; } }
+    /// <summary>
+    /// How many values are in the node
+    /// </summary>
     public int CountValues { get { return values.Count; } }
 
     private Dictionary<string, Value> values = new Dictionary<string, Value>();
     private List<KeyValuePair<string, Node>> nodes = new List<KeyValuePair<string, Node>>();
 
+    /// <summary>
+    /// Get value with name, name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public Value GetValue(string name) {
       return values[name];
     }
 
+    /// <summary>
+    /// Get node with name, name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public Node GetNode(string name) {
       List<Node> nds = new List<Node>();
       foreach(var nd in nodes) {
@@ -31,6 +49,10 @@ namespace EnvyConfig {
       return null;
     }
 
+    /// <summary>
+    /// Get all nodes in node
+    /// </summary>
+    /// <returns></returns>
     public Node[] GetNodes() {
       List<Node> nds = new List<Node>();
       foreach(var nd in nodes) {
@@ -39,6 +61,11 @@ namespace EnvyConfig {
       return nds.ToArray();
     }
 
+    /// <summary>
+    /// Get all nodes in node with name, name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public Node[] GetNodes(string name) {
       List<Node> nds = new List<Node>();
 
@@ -51,6 +78,10 @@ namespace EnvyConfig {
       return nds.ToArray();
     }
 
+    /// <summary>
+    /// Remove value, value
+    /// </summary>
+    /// <param name="value"></param>
     public void Remove(Value value) {
       foreach(var kvp in values) {
         if(kvp.Value == value) {
@@ -60,6 +91,10 @@ namespace EnvyConfig {
       }
     }
 
+    /// <summary>
+    /// Remove node, node
+    /// </summary>
+    /// <param name="node"></param>
     public void Remove(Node node) {
       foreach(var kvp in nodes) {
         if(kvp.Value == node) {
@@ -69,6 +104,11 @@ namespace EnvyConfig {
       }
     }
 
+    /// <summary>
+    /// Add node, node with name, name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="node"></param>
     public void Add(string name, Node node = null) {
       if (Regex.IsMatch(name, @"^[a-zA-Z][a-zA-Z1-9_]*$")) {
         nodes.Add(new KeyValuePair<string, Node>(name, node)); 
@@ -77,6 +117,11 @@ namespace EnvyConfig {
       }
     }
 
+    /// <summary>
+    /// Add value, value with name, name
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
     public void Add(string name, Value value) {
       if(Regex.IsMatch(name, @"^[a-zA-Z][a-zA-Z1-9_]*$")) {
         values[name] = value;

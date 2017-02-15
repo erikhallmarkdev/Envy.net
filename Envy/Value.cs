@@ -10,7 +10,9 @@ namespace EnvyConfig {
   /// Works as a single value, or an array of many items. First index can be accessed directly, the rest require an index
   /// </summary>
   public class Value : IEnumerable<Item> { //TODO: Make IEnumerable
-    //public string Name { get; protected set; }
+    /// <summary>
+    /// Number of items in the value
+    /// </summary>
     public int Count { get { return values.Count;  } }
 
     private List<Item> values = new List<Item>();
@@ -26,6 +28,9 @@ namespace EnvyConfig {
 
     }
 
+    /// <summary>
+    /// The item at index, 0
+    /// </summary>
     public Item value {
       get {
         return GetValue(0);
@@ -35,6 +40,11 @@ namespace EnvyConfig {
       }
     }
 
+    /// <summary>
+    /// Item at index, index
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public Item this[int index] {
       get {
         return GetValue(index);
@@ -45,33 +55,44 @@ namespace EnvyConfig {
       }
     }
 
+    /// <summary>
+    /// Get item at, index
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns></returns>
     public Item GetValue(int index) {
       return values[index];
     }
 
+    /// <summary>
+    /// Set item at, index to value
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="value"></param>
     public void SetValue(int index, Item value) {
       values[index] = value;
     }
 
-    /*
-    public void SetValue(int index, EnvyValue value) {
-      
-    }
-
-    public void SetValue(EnvyValue value) {
-      SetValue(0, value);
-    }
-
-    */
-
+    /// <summary>
+    /// Remove item, item
+    /// </summary>
+    /// <param name="item"></param>
     public void Remove(Item item) {
       values.Remove(item);
     }
 
+    /// <summary>
+    /// Remove the item at index, index
+    /// </summary>
+    /// <param name="index"></param>
     public void Remove(int index) {
       values.Remove(values[index]);
     }
 
+    /// <summary>
+    /// Add item, item
+    /// </summary>
+    /// <param name="item"></param>
     public void Add(Item item) {
       values.Add(item);
     }
@@ -95,12 +116,24 @@ namespace EnvyConfig {
       return final;
     }
 
+    /// <summary>
+    /// Add item, right to the value
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static Value operator +(Value left, Item right) {
       Value val = left;
       val.Add(right);
       return val;
     }
 
+    /// <summary>
+    /// Removes item, right from the value
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static Value operator -(Value left, Item right) {
       Value val = left;
       val.Remove(right);

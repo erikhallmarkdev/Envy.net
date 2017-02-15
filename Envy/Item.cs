@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 
 namespace EnvyConfig {
-
-  /// <summary>
-  /// What type of data is held in this value
-  /// </summary>
-  //TODO: Convert the number type to do something more efficent than store everything in a decmial.
+  //TODO: Convert the number type to do something more efficent than store everything in a double.
   public class Item {
+    /// <summary>
+    /// Type of value (Bool, Number, or String)
+    /// </summary>
     public enum ValueType {
       Bool = 0, //Literal "true" or "false" in source. 
       Number = 1, //Any possible number 0-9.0-9
@@ -18,7 +17,13 @@ namespace EnvyConfig {
 
     static Exception CannotConvertException = new Exception("Cannot convert to given type");
 
+    /// <summary>
+    /// Value of the item
+    /// </summary>
     public object value { get; protected set; }
+    /// <summary>
+    /// Type of item
+    /// </summary>
     public ValueType type { get; protected set; }
 
     public Item(double val) {
@@ -44,24 +49,6 @@ namespace EnvyConfig {
         throw CannotConvertException;
       }
     }
-
-    /*public static implicit operator float(Item value) {
-      if (value.type == ValueType.Number) {
-        return (float)value.value;
-      }
-      else {
-        throw CannotConvertException;
-      }
-    }
-
-    public static implicit operator int(Item value) {
-      if (value.type == ValueType.Number) {
-        return (int)value.value;
-      }
-      else {
-        throw CannotConvertException;
-      }
-    }*/
 
     public static implicit operator string(Item value) {
       if (value.type == ValueType.String) {
