@@ -33,6 +33,30 @@ namespace EnvyConfig {
       return values[name];
     }
 
+    public bool TryGetValue(string name) {
+      if (values.ContainsKey(name)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    /// <summary>
+    /// Check if value with name exists.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public bool TryGetValue(string name, ref Value value) {
+      if (values.ContainsKey(name)) {
+        value = GetValue(name);
+        return true;
+      }
+
+      return false;
+      throw new NotImplementedException();
+    }
+
     /// <summary>
     /// Get node with name, name
     /// </summary>
@@ -47,6 +71,31 @@ namespace EnvyConfig {
       }
 
       return null;
+    }
+
+    public bool TryGetNode(string name) {
+      foreach(var kvp in nodes) {
+        if(kvp.Key == name) {
+          return true;
+        }
+      }
+
+      return true;
+    }
+
+    /// <summary>
+    /// Check if Node with name exists
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public bool TryGetNode(string name, ref Node node) {
+      if (TryGetNode(name)) { 
+        node = GetNode(name);
+        return true;
+      }
+
+      return false;
     }
 
     /// <summary>

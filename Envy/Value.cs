@@ -9,7 +9,7 @@ namespace EnvyConfig {
   /// <summary>
   /// Works as a single value, or an array of many items. First index can be accessed directly, the rest require an index
   /// </summary>
-  public class Value : IEnumerable<Item> { //TODO: Make IEnumerable
+  public class Value : IEnumerable<Item> { 
     /// <summary>
     /// Number of items in the value
     /// </summary>
