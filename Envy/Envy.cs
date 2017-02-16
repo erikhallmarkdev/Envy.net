@@ -31,19 +31,8 @@ namespace EnvyConfig{
 
     public static Node FromSource(string source) {
       Node node = new Node();
-
       var tokens = tokenize(source);
-
-      
-      foreach(Token token in tokens) {
-        Console.WriteLine(token.lexeme + " : " + token.value);
-      }
-
-      Console.Write(Environment.NewLine);
-      
-  
       node = Parse(tokens.ToArray());
-
       return node;
     }
 
