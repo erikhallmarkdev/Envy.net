@@ -19,10 +19,17 @@ namespace EnvyConfig {
 
       public Lexeme lexeme;
       public string value;
+      public int lineNumber;
 
       public Token(Lexeme _lexeme, string _value) {
         lexeme = _lexeme;
         value = _value;
+      }
+
+      public Token(Lexeme _lexeme, string _value, int _lineNumber) {
+        lexeme = _lexeme;
+        value = _value;
+        lineNumber = _lineNumber;
       }
 
     }
@@ -48,7 +55,7 @@ namespace EnvyConfig {
             break;
           case Lexeme.BLOCK_BEGIN:
             if(name == "") {
-              Console.WriteLine($"Parse.Node: Invalid symbol { token.value }");
+              InvalidSymbol(token.value, token.lineNumber);
               break;
             }
 
@@ -59,7 +66,7 @@ namespace EnvyConfig {
             break;
           case Lexeme.VALUE_BEGIN:
             if(name == "") {
-              Console.WriteLine($"Parse.Value: Invalid symbol ${ token.value }");
+              InvalidSymbol(token.value, token.lineNumber);
               break;
             }
             Value value;
@@ -69,7 +76,7 @@ namespace EnvyConfig {
             break;
 
           default:
-            Console.WriteLine($"Parse: Invalid symbol { token.value } : { i }");
+            InvalidSymbol(token.value, token.lineNumber);
             i++;
             break;
         }
@@ -101,7 +108,7 @@ namespace EnvyConfig {
             return;
 
           default:
-            Console.WriteLine($"ParseValue: Invalid symbol { token.value }");
+            InvalidSymbol(token.value, token.lineNumber);
             break;
         }
       }
@@ -123,7 +130,7 @@ namespace EnvyConfig {
             break;
           case Lexeme.BLOCK_BEGIN:
             if(name == "") {
-              Console.WriteLine($"ParseNode.Node: Invalid symbol { token.value }");
+              InvalidSymbol(token.value, token.lineNumber);
             }
             Node newNode;
             ParseNode(tokens, ref i, i + 1, out newNode);
@@ -133,7 +140,7 @@ namespace EnvyConfig {
             break;
           case Lexeme.VALUE_BEGIN:
             if(name == "") {
-              Console.WriteLine($"ParseNode.Value: Invalid symbol { token.value }");
+              InvalidSymbol(token.value, token.lineNumber);
             }
             Value newValue;
             ParseValue(tokens, ref i, i + 1, out newValue);
@@ -145,7 +152,7 @@ namespace EnvyConfig {
             index = i + 1;
             return;
           default:
-            Console.WriteLine($"ParseNode: Invalid symbol { token.value }");
+            InvalidSymbol(token.value, token.lineNumber);
             break;
         }
       }
@@ -154,12 +161,18 @@ namespace EnvyConfig {
     private static List<Token> tokenize(string source) {
       var tokens = new List<Token>();
       int state = 0; //0 = start, 1 = text(litteral or name), 2 = string, 3 = number, 4 = comment, 5 = emit token
+      int currentLine = 0;
       Lexeme currentLex = Lexeme.NOTHING;
       string current = "";
 
       int i = 0;
       while (i < source.Length + 1) {
         char c =  i < source.Length ? source[i] : ' ';
+
+        if(c == '\n') {
+          currentLine++;
+        }
+
         switch (state) {
           case 0: //Start
 
@@ -276,7 +289,7 @@ namespace EnvyConfig {
             }
             break;
           case 5: //emit token
-            tokens.Add(new Token(currentLex, current));
+            tokens.Add(new Token(currentLex, current, currentLine));
             current = "";
             currentLex = Lexeme.NOTHING;
             state = 0;
@@ -313,6 +326,15 @@ namespace EnvyConfig {
           return false;
 
       }
+    }
+
+    private static void InvalidSymbol(string value, int lineNumber = -1) { //TODO: Create more robust error messages
+      if(lineNumber == -1) {
+        Console.WriteLine($"Invalid symbol { value }");
+        return;
+      }
+
+      Console.WriteLine($"Invalid symbol { value }, on line { lineNumber }");
     }
   }
 }
