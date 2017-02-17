@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace EnvyConfig {
@@ -31,6 +29,21 @@ namespace EnvyConfig {
     /// <returns></returns>
     public Value GetValue(string name) {
       return values[name];
+    }
+
+    /// <summary>
+    /// Returns All values in the form of KeyValuePairs with their names
+    /// </summary>
+    /// <returns></returns>
+    public KeyValuePair<string, Value>[] GetValuePairs() { //TODO: Improve this algorithm, it can probably be made far more efficient.
+      var allValuePairs = new List<KeyValuePair<string, Value>>();
+
+      foreach(var kvp in values) {
+        allValuePairs.Add(kvp);
+      }
+
+      return allValuePairs.ToArray();
+
     }
 
     public bool TryGetValue(string name) {
@@ -125,6 +138,14 @@ namespace EnvyConfig {
       }
 
       return nds.ToArray();
+    }
+
+    /// <summary>
+    /// Returns All nodes in the form of KeyValuePairs with their names
+    /// </summary>
+    /// <returns></returns>
+    public KeyValuePair<string, Node>[] GetNodePairs() {
+      return nodes.ToArray();
     }
 
     /// <summary>

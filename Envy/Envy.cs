@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EnvyConfig{
+namespace EnvyConfig {
   public static class Envy{
 
     static Exception InvalidCharacter = new Exception("Encountered unexpected character in parse");
@@ -230,7 +228,7 @@ namespace EnvyConfig{
             }
 
             break;
-          case 1: //Text
+          case 1: //Text (Name or literal)
             if(Regex.IsMatch(c.ToString(), nameCharMatch)) {
               current += c;
               i++;
@@ -245,17 +243,23 @@ namespace EnvyConfig{
             }
             break;
 
-          case 2: //TODO: Add string escape
+          case 2: //string
             if (c != '"') {
               current += c;
               i++;
             } else {
+              if (IsEscaped(current)) { //Todo: Remove escape characters from string
+                current += c;
+                i++;
+                break;
+              }
+
               currentLex = Lexeme.STRING;
               state = 5;
               i++;
             }
             break;
-          case 3:
+          case 3: //number
             if(char.IsNumber(c) || c == '.') {
               current += c;
               i++;
@@ -264,14 +268,14 @@ namespace EnvyConfig{
               state = 5;
             }
             break;
-          case 4:
+          case 4: //comment
             if(c != '\n') {
               i++;
             } else {
               state = 0;
             }
             break;
-          case 5:
+          case 5: //emit token
             tokens.Add(new Token(currentLex, current));
             current = "";
             currentLex = Lexeme.NOTHING;
@@ -282,6 +286,18 @@ namespace EnvyConfig{
 
       return tokens;
     }
+
+    static bool IsEscaped(string text) {
+      bool escaped = false;
+      for(int i = text.Length - 1; i > 0; i--) {
+        if (text[i] == '\\') {
+          escaped = !escaped;
+        } else {
+          return escaped;
+        }
+      }
+      return escaped;
+    } 
 
     static bool isSpecial(char c) {
       switch (c) {

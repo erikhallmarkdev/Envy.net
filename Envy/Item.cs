@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EnvyConfig {
   //TODO: Convert the number type to do something more efficent than store everything in a double.
@@ -90,7 +87,7 @@ namespace EnvyConfig {
         case ValueType.Number:
           return value.ToString();
 
-        case ValueType.String:
+        case ValueType.String: //TODO: Add escape character to quotation marks found in string
           return '"' + value.ToString() + '"';
       }
 

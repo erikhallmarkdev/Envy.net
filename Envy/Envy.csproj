@@ -7,7 +7,7 @@
     <ProjectGuid>{369CEDC9-4D07-402B-B966-E8226B1A6370}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Envy</RootNamespace>
+    <RootNamespace>EnvyConfig</RootNamespace>
     <AssemblyName>Envy</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
