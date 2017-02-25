@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace EnvyConfig {
   //TODO: Convert the number type to do something more efficent than store everything in a double.

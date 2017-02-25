@@ -201,13 +201,13 @@ namespace EnvyConfig {
                   state = 5;
                   i++;
                   break;
-                case ',':
-                  i++;
-                  break;
                 case '(':
                   currentLex = Lexeme.VALUE_BEGIN;
                   current = c.ToString();
                   state = 5;
+                  i++;
+                  break;
+                case ',':
                   i++;
                   break;
                 case '#':
@@ -220,25 +220,24 @@ namespace EnvyConfig {
                   state = 2;
                   i++;
                   break;
-
-                default:
-                  Console.WriteLine($"Invalid character ${ c }");
-                  throw new Exception("Invalid character: " + c); 
               }
-            }
-
-            if(Regex.IsMatch(c.ToString(), nameMatch)) {
+            } else if(Regex.IsMatch(c.ToString(), nameMatch)) {
               current += c;
               state = 1;
               i++;
-            }
-
-            if (Regex.IsMatch(c.ToString(), numberSignleMatch)) {
+              break;
+            } else if (Regex.IsMatch(c.ToString(), numberSignleMatch)) {
               current += c;
               currentLex = Lexeme.NUMBER;
               state = 3;
               i++;
+              break;
+            } else {
+              Console.WriteLine($"Invalid character { c }");
+              i++;
             }
+
+
 
             break;
           case 1: //Text (Name or literal)
@@ -261,13 +260,14 @@ namespace EnvyConfig {
               current += c;
               i++;
             } else {
-              if (IsEscaped(current)) { //Todo: Remove escape characters from string
+              if (IsEscaped(current)) {
                 current += c;
                 i++;
                 break;
               }
 
               currentLex = Lexeme.STRING;
+              current = Regex.Unescape(current);
               state = 5;
               i++;
             }

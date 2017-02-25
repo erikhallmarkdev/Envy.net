@@ -220,7 +220,7 @@ namespace EnvyConfig {
       string final = new string(' ', tabs * 2);
 
       foreach (var value in values) {
-        final += value.Key + " (" + value.Value.ToString() + ")" + Environment.NewLine + new string(' ', tabs * 2);
+        final += value.Key + " (" + value.Value.ToString() + " )" + Environment.NewLine + new string(' ', tabs * 2);
       }
       final += Environment.NewLine;
 
@@ -230,6 +230,5 @@ namespace EnvyConfig {
 
       return final;
     }
-
   }
 }
