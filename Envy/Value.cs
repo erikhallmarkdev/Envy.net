@@ -14,8 +14,10 @@ namespace EnvyConfig {
 
     private List<Item> values = new List<Item>();
     
-    public Value(Item value) {
-      Add(value);
+    public Value(params Item[] values) {
+      foreach(var value in values) {
+        Add(value);
+      }
     }
 
     /// <summary>
